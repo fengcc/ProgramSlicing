@@ -10,6 +10,7 @@ CfgNode *createCFG(AstNode *node_ast)
 	CfgNode *exitnode = newCfgNode(Exit);
 	NodeParameterList *first, *last;
 	NodeParameterList *p;	/*用于节点释放空间时*/
+	CfgNodeList *pred;
 
 	/*抽象语法树是从1开始编号的，这里把控制流图的入口和出口节点的id_of_ast的值都设为0,以示特殊*/
 	entrynode->node_of_ast = exitnode->node_of_ast = NULL;
@@ -21,13 +22,22 @@ CfgNode *createCFG(AstNode *node_ast)
 
 	first = (NodeParameterList *)malloc(sizeof(NodeParameterList));
 	first->node_succ = entrynode->successor;
+	first->node_cfg = entrynode;
 	first->next = NULL; 
 
 	last = createNodeRecursively(first, node_ast);
 
 	while (last)
 	{
-		last->node_succ->node_cfg = exitnode;
+		last->node_succ->node_cfg = exitnode;	/*将上一个节点的后继节点赋为当前节点*/
+		
+		pred = (CfgNodeList *)malloc(sizeof(CfgNodeList));
+		pred->path_value = last->node_succ->path_value;
+		pred->node_cfg = last->node_cfg;		/*将此节点的前驱节点指向上一个节点*/
+
+		/*头插法插入前驱节点链表中*/
+		pred->next = exitnode->predecessor;
+		exitnode->predecessor = pred;
 
 		p = last;
 		last = last->next;
@@ -37,13 +47,13 @@ CfgNode *createCFG(AstNode *node_ast)
 	return entrynode;
 }
 
-NodeParameterList *createNodeRecursively(NodeParameterList *pre, AstNode *node_ast)
+NodeParameterList *createNodeRecursively(NodeParameterList *succlist, AstNode *node_ast)
 {
 	NodeParameterList *path_return;
 	AstNode *p;
 
 	if (!node_ast)	/*node_ast为NULL*/
-		return pre;
+		return succlist;
 
 	if (node_ast->nodetype_ast == Statement)
 	{
@@ -51,22 +61,22 @@ NodeParameterList *createNodeRecursively(NodeParameterList *pre, AstNode *node_a
 		if (strcmp(node_ast->value.value_string, "assignment_statement") == 0
 			|| strcmp(node_ast->value.value_string, "expression_statement") == 0
 			|| strcmp(node_ast->value.value_string, "jump_statement") == 0)
-			path_return = assign_express_jump_case(pre, node_ast);
+			path_return = assign_express_jump_case(succlist, node_ast);
 
 		/*选择语句*/
 		if (strcmp(node_ast->value.value_string, "selection_statement_no_else") == 0)
-			path_return =  select_no_else_case(pre, node_ast);
+			path_return =  select_no_else_case(succlist, node_ast);
 		if (strcmp(node_ast->value.value_string, "selection_statement_with_else") == 0)
-			path_return =  select_with_else_case(pre, node_ast);
+			path_return =  select_with_else_case(succlist, node_ast);
 
 		/*循环语句*/
 		if (strcmp(node_ast->value.value_string, "iteration_statement") == 0)
-			path_return =  iteration_case(pre, node_ast);
+			path_return =  iteration_case(succlist, node_ast);
 
 	}
 	else
 	{
-		path_return = createNodeRecursively(pre, node_ast->firstchild);
+		path_return = createNodeRecursively(succlist, node_ast->firstchild);
 		if (node_ast->firstchild)	/*有第一个孩子*/
 		{
 			p = node_ast->firstchild->nextsibling;
@@ -81,11 +91,12 @@ NodeParameterList *createNodeRecursively(NodeParameterList *pre, AstNode *node_a
 	return path_return;
 }
 
-NodeParameterList *assign_express_jump_case(NodeParameterList *pre, AstNode *node_ast)
+NodeParameterList *assign_express_jump_case(NodeParameterList *succlist, AstNode *node_ast)
 {
 	CfgNode *temp = newCfgNode(Assign_express_jump);
 	NodeParameterList *path_return;
 	NodeParameterList *p;	/*用于节点释放空间时*/
+	CfgNodeList *pred;
 
 	temp->node_of_ast = node_ast;
 	/*创建后继节点*/
@@ -93,27 +104,37 @@ NodeParameterList *assign_express_jump_case(NodeParameterList *pre, AstNode *nod
 	temp->successor->path_value = true;
 	temp->successor->next = NULL;
 
-	while (pre)
+	while (succlist)
 	{
-		pre->node_succ->node_cfg = temp;
+		succlist->node_succ->node_cfg = temp;		/*将上一个节点的后继节点赋为当前节点*/
 
-		p = pre;
-		pre = pre->next;
+		pred = (CfgNodeList *)malloc(sizeof(CfgNodeList));
+		pred->path_value = succlist->node_succ->path_value;
+		pred->node_cfg = succlist->node_cfg;		/*将此节点的前驱节点指向上一个节点*/
+
+		/*头插法插入前驱节点链表中*/
+		pred->next = temp->predecessor;
+		temp->predecessor = pred;
+
+		p = succlist;
+		succlist = succlist->next;
 		free(p);
 	}
 
 	path_return = (NodeParameterList *)malloc(sizeof(NodeParameterList));
 	path_return->node_succ = temp->successor;
+	path_return->node_cfg = temp;
 	path_return->next = NULL;
 
 	return path_return;
 }
 
-NodeParameterList *select_no_else_case(NodeParameterList *pre, AstNode *node_ast)
+NodeParameterList *select_no_else_case(NodeParameterList *succlist, AstNode *node_ast)
 {
 	CfgNode *ifnode = newCfgNode(Select);
 	NodeParameterList *to_true_path, *true_path_return, *false_path;
 	NodeParameterList *p;	/*用于节点释放空间时*/
+	CfgNodeList *pred;
 
 	ifnode->node_of_ast = node_ast;
 	/*选择语句有两个后继节点，一个路径值为true，另一个为false*/
@@ -123,17 +144,26 @@ NodeParameterList *select_no_else_case(NodeParameterList *pre, AstNode *node_ast
 	ifnode->successor->next->path_value = false;
 	ifnode->successor->next->next = NULL;
 
-	while (pre)
+	while (succlist)
 	{
-		pre->node_succ->node_cfg = ifnode;
+		succlist->node_succ->node_cfg = ifnode;		/*将上一个节点的后继节点赋为当前节点*/
+
+		pred = (CfgNodeList *)malloc(sizeof(CfgNodeList));
+		pred->path_value = succlist->node_succ->path_value;
+		pred->node_cfg = succlist->node_cfg;		/*将此节点的前驱节点指向上一个节点*/
+
+		/*头插法插入前驱节点链表中*/
+		pred->next = ifnode->predecessor;
+		ifnode->predecessor = pred;
 		
-		p = pre;
-		pre = pre->next;
+		p = succlist;
+		succlist = succlist->next;
 		free(p);
 	}
 
 	to_true_path = (NodeParameterList *)malloc(sizeof(NodeParameterList));
 	to_true_path->node_succ = ifnode->successor;
+	to_true_path->node_cfg = ifnode;
 	to_true_path->next = NULL;
 
 	true_path_return = createNodeRecursively(to_true_path, 
@@ -142,6 +172,7 @@ NodeParameterList *select_no_else_case(NodeParameterList *pre, AstNode *node_ast
 	/*将if节点的false路径插入true路径的返回链表中，即得到整个if语句的返回链表*/
 	false_path = (NodeParameterList *)malloc(sizeof(NodeParameterList));
 	false_path->node_succ = ifnode->successor->next;
+	false_path->node_cfg = ifnode;
 	/*头插法*/
 	false_path->next = true_path_return;
 	true_path_return = false_path;
@@ -149,11 +180,12 @@ NodeParameterList *select_no_else_case(NodeParameterList *pre, AstNode *node_ast
 	return true_path_return;
 }
 
-NodeParameterList *select_with_else_case(NodeParameterList *pre, AstNode *node_ast)
+NodeParameterList *select_with_else_case(NodeParameterList *succlist, AstNode *node_ast)
 {
 	CfgNode *ifnode = newCfgNode(Select);
 	NodeParameterList *to_true_path, *to_false_path, *true_path_return, *false_path_return, *q;
 	NodeParameterList *p;	/*用于节点释放空间时*/
+	CfgNodeList *pred;
 
 	ifnode->node_of_ast = node_ast;
 
@@ -164,21 +196,31 @@ NodeParameterList *select_with_else_case(NodeParameterList *pre, AstNode *node_a
 	ifnode->successor->next->path_value = false;
 	ifnode->successor->next->next = NULL;
 
-	while (pre)
+	while (succlist)
 	{
-		pre->node_succ->node_cfg = ifnode;
+		succlist->node_succ->node_cfg = ifnode;		/*将上一个节点的后继节点赋为当前节点*/
 
-		p = pre;
-		pre = pre->next;
+		pred = (CfgNodeList *)malloc(sizeof(CfgNodeList));
+		pred->path_value = succlist->node_succ->path_value;
+		pred->node_cfg = succlist->node_cfg;		/*将此节点的前驱节点指向上一个节点*/
+
+		/*头插法插入前驱节点链表中*/
+		pred->next = ifnode->predecessor;
+		ifnode->predecessor = pred;
+
+		p = succlist;
+		succlist = succlist->next;
 		free(p);
 	}
 
 	to_true_path = (NodeParameterList *)malloc(sizeof(NodeParameterList));
 	to_true_path->node_succ = ifnode->successor;
+	to_true_path->node_cfg = ifnode;
 	to_true_path->next = NULL;
 
 	to_false_path = (NodeParameterList *)malloc(sizeof(NodeParameterList));
 	to_false_path->node_succ = ifnode->successor->next;
+	to_false_path->node_cfg = ifnode;
 	to_false_path->next = NULL;
 
 	true_path_return = createNodeRecursively(to_true_path, 
@@ -194,11 +236,12 @@ NodeParameterList *select_with_else_case(NodeParameterList *pre, AstNode *node_a
 	return true_path_return;
 }
 
-NodeParameterList *iteration_case(NodeParameterList *pre, AstNode *node_ast)
+NodeParameterList *iteration_case(NodeParameterList *succlist, AstNode *node_ast)
 {
 	CfgNode *whilenode = newCfgNode(Iteration);
 	NodeParameterList *to_true_path, *to_false_path, *true_path_return;
 	NodeParameterList *p;	/*用于节点释放空间时*/
+	CfgNodeList *pred;
 
 	whilenode->node_of_ast = node_ast;
 
@@ -209,21 +252,31 @@ NodeParameterList *iteration_case(NodeParameterList *pre, AstNode *node_ast)
 	whilenode->successor->next->path_value = false;
 	whilenode->successor->next->next = NULL;
 
-	while (pre)
+	while (succlist)
 	{
-		pre->node_succ->node_cfg = whilenode;
+		succlist->node_succ->node_cfg = whilenode;		/*将上一个节点的后继节点赋为当前节点*/
 
-		p = pre;
-		pre = pre->next;
+		pred = (CfgNodeList *)malloc(sizeof(CfgNodeList));
+		pred->path_value = succlist->node_succ->path_value;
+		pred->node_cfg = succlist->node_cfg;		/*将此节点的前驱节点指向上一个节点*/
+
+		/*头插法插入前驱节点链表中*/
+		pred->next = whilenode->predecessor;
+		whilenode->predecessor = pred;
+
+		p = succlist;
+		succlist = succlist->next;
 		free(p);
 	}
 
 	to_true_path = (NodeParameterList *)malloc(sizeof(NodeParameterList));
 	to_true_path->node_succ = whilenode->successor;
+	to_true_path->node_cfg = whilenode;
 	to_true_path->next = NULL;
 
 	to_false_path = (NodeParameterList *)malloc(sizeof(NodeParameterList));
 	to_false_path->node_succ = whilenode->successor->next;
+	to_false_path->node_cfg = whilenode;
 	to_false_path->next = NULL;
 
 	true_path_return = createNodeRecursively(to_true_path, 
@@ -232,7 +285,15 @@ NodeParameterList *iteration_case(NodeParameterList *pre, AstNode *node_ast)
 	/*循环结尾指向自己*/
 	while (true_path_return)
 	{
-		true_path_return->node_succ->node_cfg = whilenode;
+		true_path_return->node_succ->node_cfg = whilenode;	/*将上一个节点的后继节点赋为当前节点*/
+
+		pred = (CfgNodeList *)malloc(sizeof(CfgNodeList));
+		pred->path_value = true_path_return->node_succ->path_value;
+		pred->node_cfg = true_path_return->node_cfg;		/*将此节点的前驱节点指向上一个节点*/
+
+		/*头插法插入前驱节点链表中*/
+		pred->next = whilenode->predecessor;
+		whilenode->predecessor = pred;
 
 		p = true_path_return;
 		true_path_return = true_path_return->next;
@@ -250,6 +311,7 @@ CfgNode *newCfgNode(enum CfgNodeType type)
 
 	node->visited = false;
 
+	node->predecessor = NULL;
 	node->successor = NULL;
 
 	return node;
