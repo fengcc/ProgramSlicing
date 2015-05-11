@@ -76,9 +76,10 @@ NodeParameterList *createNodeRecursively(NodeParameterList *succlist, AstNode *n
 	}
 	else
 	{
-		path_return = createNodeRecursively(succlist, node_ast->firstchild);
 		if (node_ast->firstchild)	/*有第一个孩子*/
 		{
+			path_return = createNodeRecursively(succlist, node_ast->firstchild);
+
 			p = node_ast->firstchild->nextsibling;
 			while (p)
 			{
@@ -99,6 +100,13 @@ NodeParameterList *assign_express_jump_case(NodeParameterList *succlist, AstNode
 	CfgNodeList *pred;
 
 	temp->node_of_ast = node_ast;
+
+	if (strcmp(node_ast->value.value_string, "assignment_statement") == 0)
+	{
+		collectSymbol(node_ast->firstchild, &temp->def_s);
+		collectSymbol(node_ast->firstchild->nextsibling->nextsibling, &temp->use_s);
+	}
+
 	/*创建后继节点*/
 	temp->successor = (CfgNodeList *)malloc(sizeof(CfgNodeList));
 	temp->successor->path_value = true;
@@ -303,6 +311,37 @@ NodeParameterList *iteration_case(NodeParameterList *succlist, AstNode *node_ast
 	return to_false_path;
 }
 
+void collectSymbol(AstNode *node_ast, Symbol **symbol_list)
+{
+	Symbol *p;
+	AstNode *q;
+
+	if (!node_ast)
+		return;
+
+	if (node_ast->nodetype_ast == Identifier)
+	{
+		p = (Symbol *)malloc(sizeof(Symbol));
+		strcpy(p->name, node_ast->value.value_string);
+		
+		/*头插法*/
+		p->next = *symbol_list;
+		*symbol_list = p;
+	}
+	
+	if (node_ast->firstchild)
+	{
+		collectSymbol(node_ast->firstchild, symbol_list);
+
+		q = node_ast->firstchild->nextsibling;
+		while (q)
+		{
+			collectSymbol(q, symbol_list);
+			q = q->nextsibling;
+		}
+	}
+}
+
 CfgNode *newCfgNode(enum CfgNodeType type)
 {
 	CfgNode *node = (CfgNode *)malloc(sizeof(CfgNode));
@@ -311,8 +350,9 @@ CfgNode *newCfgNode(enum CfgNodeType type)
 
 	node->visited = false;
 
-	node->predecessor = NULL;
-	node->successor = NULL;
+	node->def_s = node->use_s = NULL;
+
+	node->predecessor = node->successor = NULL;
 
 	return node;
 }

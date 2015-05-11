@@ -15,6 +15,12 @@ enum CfgNodeType
 	Exit
 };
 
+typedef struct Symbol
+{
+	char name[20];
+	struct Symbol *next;
+}Symbol;
+
 /*用来保存后继节点指针的链表节点*/
 struct _CfgNodeList
 {
@@ -30,6 +36,8 @@ struct _CfgNode
 
 	AstNode *node_of_ast;	/*对应的抽象语法树节点*/
 	int visited;	/*节点是否访问过*/
+
+	Symbol *def_s, *use_s;	/*节点定义和使用的变量链表*/
 
 	struct _CfgNodeList *predecessor;	/*前驱节点指针链表*/
 	struct _CfgNodeList *successor;		/*后继节点指针链表*/
@@ -63,6 +71,9 @@ NodeParameterList *iteration_case(NodeParameterList *succlist, AstNode *node_ast
 
 /*创建控制流图节点，由节点处理函数调用*/
 CfgNode *newCfgNode(enum CfgNodeType type);
+
+/*将抽象语法树节点node_ast中的符号使用信息存入符号链表中并返回，二级指针，改变指针本身的值*/
+void collectSymbol(AstNode *node_ast, Symbol **symbol_list);
 
 void freeCfgNode(CfgNode *node);
 
