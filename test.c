@@ -2,20 +2,11 @@
 
 int main()
 {
-
 	int i = 0;
 
-	if ( i == 0)
+	if (i == 0)
 	{
 		printf("Hello world!\n");
-		if (i == 0)
-		{
-			printf("Hello\n");
-		}
-		else
-		{
-			printf("hi\n");
-		}
 	}
 
 	while (i < 4)

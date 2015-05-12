@@ -2065,32 +2065,32 @@ yyreduce:
   case 75:
 /* Line 1792 of yacc.c  */
 #line 285 "bison_c.y"
-    { (yyval.a) = newAstNode(Statement, newNodeValue(0, "selection_statement_no_else"), linesno);
-										  AstNode *if_keyword = newAstNode(Keyword, newNodeValue(0, "if"), linesno);
-										  AstNode *left_bracket = newAstNode(Operator, newNodeValue(0, "("), linesno);
-										  AstNode *right_bracket = newAstNode(Operator, newNodeValue(0, ")"), linesno);
-										  linkAstNode((yyval.a), if_keyword, left_bracket, (yyvsp[(3) - (5)].a), right_bracket, (yyvsp[(5) - (5)].a), NULL); }
+    { (yyval.a) = newAstNode(Statement, newNodeValue(0, "selection_statement_no_else"), (yyvsp[(3) - (5)].a)->linenumber);
+								  AstNode *if_keyword = newAstNode(Keyword, newNodeValue(0, "if"), (yyvsp[(3) - (5)].a)->linenumber);
+								  AstNode *left_bracket = newAstNode(Operator, newNodeValue(0, "("), (yyvsp[(3) - (5)].a)->linenumber);
+								  AstNode *right_bracket = newAstNode(Operator, newNodeValue(0, ")"), (yyvsp[(3) - (5)].a)->linenumber);
+								  linkAstNode((yyval.a), if_keyword, left_bracket, (yyvsp[(3) - (5)].a), right_bracket, (yyvsp[(5) - (5)].a), NULL); }
     break;
 
   case 76:
 /* Line 1792 of yacc.c  */
 #line 291 "bison_c.y"
-    { (yyval.a) = newAstNode(Statement, newNodeValue(0, "selection_statement_with_else"), linesno);
-										  AstNode *if_keyword = newAstNode(Keyword, newNodeValue(0, "if"), linesno);
-										  AstNode *else_keyword = newAstNode(Keyword, newNodeValue(0, "else"), linesno);
-										  AstNode *left_bracket = newAstNode(Operator, newNodeValue(0, "("), linesno);
-										  AstNode *right_bracket = newAstNode(Operator, newNodeValue(0, ")"), linesno);
-										  linkAstNode((yyval.a), if_keyword, left_bracket, (yyvsp[(3) - (7)].a), right_bracket, (yyvsp[(5) - (7)].a), else_keyword, (yyvsp[(7) - (7)].a), NULL); }
+    { (yyval.a) = newAstNode(Statement, newNodeValue(0, "selection_statement_with_else"), (yyvsp[(3) - (7)].a)->linenumber);
+								  AstNode *if_keyword = newAstNode(Keyword, newNodeValue(0, "if"), (yyvsp[(3) - (7)].a)->linenumber);
+								  AstNode *else_keyword = newAstNode(Keyword, newNodeValue(0, "else"), (yyvsp[(3) - (7)].a)->linenumber);
+								  AstNode *left_bracket = newAstNode(Operator, newNodeValue(0, "("), (yyvsp[(3) - (7)].a)->linenumber);
+								  AstNode *right_bracket = newAstNode(Operator, newNodeValue(0, ")"), (yyvsp[(3) - (7)].a)->linenumber);
+								  linkAstNode((yyval.a), if_keyword, left_bracket, (yyvsp[(3) - (7)].a), right_bracket, (yyvsp[(5) - (7)].a), else_keyword, (yyvsp[(7) - (7)].a), NULL); }
     break;
 
   case 77:
 /* Line 1792 of yacc.c  */
 #line 301 "bison_c.y"
-    { (yyval.a) = newAstNode(Statement, newNodeValue(0, "iteration_statement"), linesno);
-										  AstNode *while_keyword = newAstNode(Keyword, newNodeValue(0, "while"), linesno);
-										  AstNode *left_bracket = newAstNode(Operator, newNodeValue(0, "("), linesno);
-										  AstNode *right_bracket = newAstNode(Operator, newNodeValue(0, ")"), linesno);
-										  linkAstNode((yyval.a), while_keyword, left_bracket, (yyvsp[(3) - (5)].a), right_bracket, (yyvsp[(5) - (5)].a), NULL); }
+    { (yyval.a) = newAstNode(Statement, newNodeValue(0, "iteration_statement"), (yyvsp[(3) - (5)].a)->linenumber);
+								  AstNode *while_keyword = newAstNode(Keyword, newNodeValue(0, "while"), (yyvsp[(3) - (5)].a)->linenumber);
+								  AstNode *left_bracket = newAstNode(Operator, newNodeValue(0, "("), (yyvsp[(3) - (5)].a)->linenumber);
+								  AstNode *right_bracket = newAstNode(Operator, newNodeValue(0, ")"), (yyvsp[(3) - (5)].a)->linenumber);
+								  linkAstNode((yyval.a), while_keyword, left_bracket, (yyvsp[(3) - (5)].a), right_bracket, (yyvsp[(5) - (5)].a), NULL); }
     break;
 
   case 78:
@@ -2120,29 +2120,29 @@ yyreduce:
   case 81:
 /* Line 1792 of yacc.c  */
 #line 328 "bison_c.y"
-    { (yyval.a) = newAstNode(FunctionDefinition, newNodeValue(0, "function_definition"), linesno);
-									  AstNode *identifier = newAstNode(Identifier, newNodeValue(0, (yyvsp[(2) - (5)].s)), linesno);
-									  AstNode *left_bracket = newAstNode(Operator, newNodeValue(0, "("), linesno);
-									  AstNode *right_bracket = newAstNode(Operator, newNodeValue(0, ")"), linesno);
-									  linkAstNode((yyval.a), (yyvsp[(1) - (5)].a), identifier, left_bracket, right_bracket, (yyvsp[(5) - (5)].a), NULL); }
+    { (yyval.a) = newAstNode(FunctionDefinition, newNodeValue(0, "function_definition"), (yyvsp[(1) - (5)].a)->linenumber);
+								  AstNode *identifier = newAstNode(Identifier, newNodeValue(0, (yyvsp[(2) - (5)].s)), (yyvsp[(1) - (5)].a)->linenumber);
+								  AstNode *left_bracket = newAstNode(Operator, newNodeValue(0, "("), (yyvsp[(1) - (5)].a)->linenumber);
+								  AstNode *right_bracket = newAstNode(Operator, newNodeValue(0, ")"), (yyvsp[(1) - (5)].a)->linenumber);
+								  linkAstNode((yyval.a), (yyvsp[(1) - (5)].a), identifier, left_bracket, right_bracket, (yyvsp[(5) - (5)].a), NULL); }
     break;
 
   case 82:
 /* Line 1792 of yacc.c  */
 #line 336 "bison_c.y"
     { (yyval.a) = newAstNode(FunctionDefinition, newNodeValue(0, "compound_statement"), linesno);
-									  AstNode *big_left_bracket = newAstNode(Operator, newNodeValue(0, "{"), linesno);
-									  AstNode *big_right_bracket = newAstNode(Operator, newNodeValue(0, "}"), linesno);
-									  linkAstNode((yyval.a), big_left_bracket, big_right_bracket, NULL); }
+								  AstNode *big_left_bracket = newAstNode(Operator, newNodeValue(0, "{"), linesno);
+								  AstNode *big_right_bracket = newAstNode(Operator, newNodeValue(0, "}"), linesno);
+								  linkAstNode((yyval.a), big_left_bracket, big_right_bracket, NULL); }
     break;
 
   case 83:
 /* Line 1792 of yacc.c  */
 #line 340 "bison_c.y"
-    { (yyval.a) = newAstNode(FunctionDefinition, newNodeValue(0, "compound_statement"), linesno);
-									  AstNode *big_left_bracket = newAstNode(Operator, newNodeValue(0, "{"), linesno);
-									  AstNode *big_right_bracket = newAstNode(Operator, newNodeValue(0, "}"), linesno);
-									  linkAstNode((yyval.a), big_left_bracket, (yyvsp[(2) - (3)].a), big_right_bracket, NULL); }
+    { (yyval.a) = newAstNode(FunctionDefinition, newNodeValue(0, "compound_statement"), (yyvsp[(2) - (3)].a)->linenumber-1);
+								  AstNode *big_left_bracket = newAstNode(Operator, newNodeValue(0, "{"), (yyvsp[(2) - (3)].a)->linenumber-1);
+								  AstNode *big_right_bracket = newAstNode(Operator, newNodeValue(0, "}"), linesno);
+								  linkAstNode((yyval.a), big_left_bracket, (yyvsp[(2) - (3)].a), big_right_bracket, NULL); }
     break;
 
   case 84:
@@ -2154,7 +2154,7 @@ yyreduce:
   case 85:
 /* Line 1792 of yacc.c  */
 #line 348 "bison_c.y"
-    { (yyval.a) = newAstNode(FunctionDefinition, newNodeValue(0, "block_item_list"), linesno);
+    { (yyval.a) = newAstNode(FunctionDefinition, newNodeValue(0, "block_item_list"), (yyvsp[(1) - (2)].a)->linenumber);
 									  linkAstNode((yyval.a), (yyvsp[(1) - (2)].a), (yyvsp[(2) - (2)].a), NULL); }
     break;
 

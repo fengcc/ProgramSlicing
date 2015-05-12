@@ -72,7 +72,8 @@ NodeParameterList *iteration_case(NodeParameterList *succlist, AstNode *node_ast
 /*创建控制流图节点，由节点处理函数调用*/
 CfgNode *newCfgNode(enum CfgNodeType type);
 
-/*将抽象语法树节点node_ast中的符号使用信息存入符号链表中并返回，二级指针，改变指针本身的值*/
+/*将抽象语法树节点node_ast中的符号使用信息存入符号链表中并返回，0表示def_s，1表示use_s*/
+//void collectSymbol(AstNode *node_ast, CfgNode *node_cfg, int flag);
 void collectSymbol(AstNode *node_ast, Symbol **symbol_list);
 
 void freeCfgNode(CfgNode *node);

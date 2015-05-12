@@ -76,10 +76,10 @@ NodeParameterList *createNodeRecursively(NodeParameterList *succlist, AstNode *n
 	}
 	else
 	{
+		path_return = createNodeRecursively(succlist, node_ast->firstchild);
+
 		if (node_ast->firstchild)	/*有第一个孩子*/
 		{
-			path_return = createNodeRecursively(succlist, node_ast->firstchild);
-
 			p = node_ast->firstchild->nextsibling;
 			while (p)
 			{
@@ -329,6 +329,7 @@ void collectSymbol(AstNode *node_ast, Symbol **symbol_list)
 		*symbol_list = p;
 	}
 	
+	/*两个if只会执行其中一个，因为Identifier型的节点没有孩子*/
 	if (node_ast->firstchild)
 	{
 		collectSymbol(node_ast->firstchild, symbol_list);
@@ -360,6 +361,7 @@ CfgNode *newCfgNode(enum CfgNodeType type)
 void freeCfgNode(CfgNode *node)
 {
 	CfgNodeList *p, *q;
+	Symbol *m, *n;
 
 	/*因上面已经访问过一边，visited值都为true，所以这次反过来*/
 	node->visited = false;
@@ -373,6 +375,33 @@ void freeCfgNode(CfgNode *node)
 		q = p;
 		p = p->next;
 		free(q);	/*释放后继节点列表所占空间*/
+	}
+
+	/*释放前驱节点链表所占空间*/
+	p = node->predecessor;
+	while (p)
+	{
+		q = p;
+		p = p->next;
+		free(q);
+	}
+
+	/*释放节点定义变量链表*/
+	m = node->def_s;
+	while (m)
+	{
+		n = m;
+		m = m->next;
+		free(n);
+	}
+
+	/*释放节点使用变量链表*/
+	m = node->use_s;
+	while (m)
+	{
+		n = m;
+		m = m->next;
+		free(n);
 	}
 
 	/*退出之前释放当前节点所占空间*/
