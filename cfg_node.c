@@ -349,6 +349,8 @@ CfgNode *newCfgNode(enum CfgNodeType type)
 
 	node->nodetype_cfg = type;
 
+	node->node_of_ast = NULL;
+
 	node->visited = false;
 
 	node->def_s = node->use_s = NULL;
@@ -363,13 +365,12 @@ void freeCfgNode(CfgNode *node)
 	CfgNodeList *p, *q;
 	Symbol *m, *n;
 
-	/*因上面已经访问过一边，visited值都为true，所以这次反过来*/
-	node->visited = false;
+	node->visited = true;
 
 	p = node->successor;
 	while (p)
 	{
-		if (p->node_cfg->visited)
+		if (!p->node_cfg->visited)
 			freeCfgNode(p->node_cfg);
 
 		q = p;

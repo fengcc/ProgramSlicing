@@ -573,16 +573,18 @@ int yy_flex_debug = 0;
 char *yytext;
 #line 1 "flex_c.l"
 #line 2 "flex_c.l"
+	#include <stdio.h>
 	#include <stdlib.h>
 	#include <string.h>
 	#include "bison_c.tab.h"
 	#include "ast_node.h"
 
+	FILE *yyin;
 	int linesno = 1;
 	
 	void comment();
 	void ignoreHeadfile();
-#line 586 "lex.yy.c"
+#line 588 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -764,10 +766,10 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
     
-#line 18 "flex_c.l"
+#line 20 "flex_c.l"
 
 
-#line 771 "lex.yy.c"
+#line 773 "lex.yy.c"
 
 	if ( !(yy_init) )
 		{
@@ -852,396 +854,396 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 20 "flex_c.l"
+#line 22 "flex_c.l"
 { comment(); }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 21 "flex_c.l"
+#line 23 "flex_c.l"
 { /*ignore comment*/ }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 23 "flex_c.l"
+#line 25 "flex_c.l"
 { return AUTO; }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 24 "flex_c.l"
+#line 26 "flex_c.l"
 { return BREAK; }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 25 "flex_c.l"
+#line 27 "flex_c.l"
 { return CASE; }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 26 "flex_c.l"
+#line 28 "flex_c.l"
 { return CHAR; }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 27 "flex_c.l"
+#line 29 "flex_c.l"
 { return DEFINE; }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 28 "flex_c.l"
+#line 30 "flex_c.l"
 { return CONTINUE; }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 29 "flex_c.l"
+#line 31 "flex_c.l"
 { return DEFAULT; }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 30 "flex_c.l"
+#line 32 "flex_c.l"
 { return DO; }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 31 "flex_c.l"
+#line 33 "flex_c.l"
 { return DOUBLE; }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 32 "flex_c.l"
+#line 34 "flex_c.l"
 { return ELSE; }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 33 "flex_c.l"
+#line 35 "flex_c.l"
 { return ENUM; }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 34 "flex_c.l"
+#line 36 "flex_c.l"
 { return EXTERN; }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 35 "flex_c.l"
+#line 37 "flex_c.l"
 { return FLOAT; }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 36 "flex_c.l"
+#line 38 "flex_c.l"
 { return FOR; }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 37 "flex_c.l"
+#line 39 "flex_c.l"
 { return GOTO; }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 38 "flex_c.l"
+#line 40 "flex_c.l"
 { return IF; }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 39 "flex_c.l"
+#line 41 "flex_c.l"
 { return INT; }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 40 "flex_c.l"
+#line 42 "flex_c.l"
 { return LONG; }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 41 "flex_c.l"
+#line 43 "flex_c.l"
 { return REGISTER; }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 42 "flex_c.l"
+#line 44 "flex_c.l"
 { return RETURN; }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 43 "flex_c.l"
+#line 45 "flex_c.l"
 { return SHORT; }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 44 "flex_c.l"
+#line 46 "flex_c.l"
 { return SIGNED; }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 45 "flex_c.l"
+#line 47 "flex_c.l"
 { return SIZEOF; }
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 46 "flex_c.l"
+#line 48 "flex_c.l"
 { return STATIC; }
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 47 "flex_c.l"
+#line 49 "flex_c.l"
 { return STRUCT; }
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 48 "flex_c.l"
+#line 50 "flex_c.l"
 { return SWITCH; }
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 49 "flex_c.l"
+#line 51 "flex_c.l"
 { return TYPEDEF; }
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 50 "flex_c.l"
+#line 52 "flex_c.l"
 { return UNION; }
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 51 "flex_c.l"
+#line 53 "flex_c.l"
 { return UNSIGNED; }
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 52 "flex_c.l"
+#line 54 "flex_c.l"
 { return VOID; }
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 53 "flex_c.l"
+#line 55 "flex_c.l"
 { return VOLATILE; }
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 54 "flex_c.l"
+#line 56 "flex_c.l"
 { return WHILE; }
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 56 "flex_c.l"
+#line 58 "flex_c.l"
 { return ADD_ASSIGN; }
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 57 "flex_c.l"
+#line 59 "flex_c.l"
 { return SUB_ASSIGN; }
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 58 "flex_c.l"
+#line 60 "flex_c.l"
 { return MUL_ASSIGN; }
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 59 "flex_c.l"
+#line 61 "flex_c.l"
 { return DIV_ASSIGN; }
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 60 "flex_c.l"
+#line 62 "flex_c.l"
 { return INC_OP; }
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 61 "flex_c.l"
+#line 63 "flex_c.l"
 { return DEC_OP; }
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 62 "flex_c.l"
+#line 64 "flex_c.l"
 { return AND_OP; }
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 63 "flex_c.l"
+#line 65 "flex_c.l"
 { return OR_OP; }
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 64 "flex_c.l"
+#line 66 "flex_c.l"
 { return LE_OP; }
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 65 "flex_c.l"
+#line 67 "flex_c.l"
 { return GE_OP; }
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 66 "flex_c.l"
+#line 68 "flex_c.l"
 { return EQ_OP; }
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 67 "flex_c.l"
+#line 69 "flex_c.l"
 { return NE_OP; }
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 68 "flex_c.l"
+#line 70 "flex_c.l"
 { return ';'; }
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 69 "flex_c.l"
+#line 71 "flex_c.l"
 { return '{'; }
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 70 "flex_c.l"
+#line 72 "flex_c.l"
 { return '}'; }
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 71 "flex_c.l"
+#line 73 "flex_c.l"
 { return ','; }
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 72 "flex_c.l"
+#line 74 "flex_c.l"
 { return ':'; }
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 73 "flex_c.l"
+#line 75 "flex_c.l"
 { return '='; }
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
-#line 74 "flex_c.l"
+#line 76 "flex_c.l"
 { return '('; }
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
-#line 75 "flex_c.l"
+#line 77 "flex_c.l"
 { return ')'; }
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
-#line 76 "flex_c.l"
+#line 78 "flex_c.l"
 { return '['; }
 	YY_BREAK
 case 56:
 YY_RULE_SETUP
-#line 77 "flex_c.l"
+#line 79 "flex_c.l"
 { return ']'; }
 	YY_BREAK
 case 57:
 YY_RULE_SETUP
-#line 78 "flex_c.l"
+#line 80 "flex_c.l"
 { return '.'; }
 	YY_BREAK
 case 58:
 YY_RULE_SETUP
-#line 79 "flex_c.l"
+#line 81 "flex_c.l"
 { return '&'; }
 	YY_BREAK
 case 59:
 YY_RULE_SETUP
-#line 80 "flex_c.l"
+#line 82 "flex_c.l"
 { return '!'; }
 	YY_BREAK
 case 60:
 YY_RULE_SETUP
-#line 81 "flex_c.l"
+#line 83 "flex_c.l"
 { return '~'; }
 	YY_BREAK
 case 61:
 YY_RULE_SETUP
-#line 82 "flex_c.l"
+#line 84 "flex_c.l"
 { return '-'; }
 	YY_BREAK
 case 62:
 YY_RULE_SETUP
-#line 83 "flex_c.l"
+#line 85 "flex_c.l"
 { return '+'; }
 	YY_BREAK
 case 63:
 YY_RULE_SETUP
-#line 84 "flex_c.l"
+#line 86 "flex_c.l"
 { return '*'; }
 	YY_BREAK
 case 64:
 YY_RULE_SETUP
-#line 85 "flex_c.l"
+#line 87 "flex_c.l"
 { return '/'; }
 	YY_BREAK
 case 65:
 YY_RULE_SETUP
-#line 86 "flex_c.l"
+#line 88 "flex_c.l"
 { return '%'; }
 	YY_BREAK
 case 66:
 YY_RULE_SETUP
-#line 87 "flex_c.l"
+#line 89 "flex_c.l"
 { return '<'; }
 	YY_BREAK
 case 67:
 YY_RULE_SETUP
-#line 88 "flex_c.l"
+#line 90 "flex_c.l"
 { return '>'; }
 	YY_BREAK
 case 68:
 YY_RULE_SETUP
-#line 89 "flex_c.l"
+#line 91 "flex_c.l"
 { return '^'; }
 	YY_BREAK
 case 69:
 YY_RULE_SETUP
-#line 90 "flex_c.l"
+#line 92 "flex_c.l"
 { return '|'; }
 	YY_BREAK
 case 70:
 YY_RULE_SETUP
-#line 91 "flex_c.l"
+#line 93 "flex_c.l"
 { return '?'; }
 	YY_BREAK
 case 71:
 YY_RULE_SETUP
-#line 93 "flex_c.l"
+#line 95 "flex_c.l"
 { yylval.d = atof(yytext); return NUMBER; }
 	YY_BREAK
 case 72:
 YY_RULE_SETUP
-#line 94 "flex_c.l"
+#line 96 "flex_c.l"
 { strcpy(yylval.s, yytext); return IDENTIFIER; }
 	YY_BREAK
 case 73:
 YY_RULE_SETUP
-#line 95 "flex_c.l"
+#line 97 "flex_c.l"
 { strcpy(yylval.s, yytext); return STRING_CONSTANT; }
 	YY_BREAK
 case 74:
 YY_RULE_SETUP
-#line 96 "flex_c.l"
+#line 98 "flex_c.l"
 { yylval.s[0] = *yytext; yylval.s[1] = '\0'; return CHARACTER; }		
 	YY_BREAK
 case 75:
 YY_RULE_SETUP
-#line 97 "flex_c.l"
+#line 99 "flex_c.l"
 { ignoreHeadfile(); linesno++; }
 	YY_BREAK
 case 76:
 /* rule 76 can match eol */
 YY_RULE_SETUP
-#line 98 "flex_c.l"
+#line 100 "flex_c.l"
 { linesno++; }
 	YY_BREAK
 case 77:
 YY_RULE_SETUP
-#line 99 "flex_c.l"
+#line 101 "flex_c.l"
 { /*other characters*/ }
 	YY_BREAK
 case 78:
 YY_RULE_SETUP
-#line 101 "flex_c.l"
+#line 103 "flex_c.l"
 ECHO;
 	YY_BREAK
-#line 1245 "lex.yy.c"
+#line 1247 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2235,7 +2237,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 101 "flex_c.l"
+#line 103 "flex_c.l"
 
 
 void comment(void)

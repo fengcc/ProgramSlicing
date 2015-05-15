@@ -2,18 +2,21 @@
 
 int main()
 {
-	int i = 0;
+	int i;
+	int sum =0;
+	int product =1;
 
-	if (i == 0)
+	i = 0;
+	while (i < 5)
 	{
-		printf("Hello world!\n");
+		sum = sum + i;
+		product = product * i;
+
+		i = i + 1;
 	}
 
-	while (i < 4)
-	{
-		printf("%d\n", i);
-		i++;
-	}
+	printf("%d\n", sum);
+	printf("%d\n", product);
 
 	return 0;
 }

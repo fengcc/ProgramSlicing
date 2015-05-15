@@ -5,28 +5,31 @@
 #include "bison_c.tab.h"
 #include "ast_node.h"
 #include "cfg_node.h"
+#include "program_slicing.h"
 #include "graph_to_dot.h"
 #include "write_ast_to_file.h"
 
 int main(int argc, char **argv)
 {
+	extern FILE *yyin;
+
 	CfgNode *cfg_entry;
-	/*int linenumber;
+	int lineno;
 	Symbol *var = NULL, *p;
 	char name_temp[20];
 
-	printf("Please input the slicing criterion.\n");
-	printf("line number: ");
-	scanf("%d", &linenumber);
-
-	while (scanf("%s", name_temp) != EOF)
+	if (argc != 2)
 	{
-		p = (Symbol *)malloc(sizeof(Symbol));
-		strcpy(p->name, name_temp);
+		printf("Usage: ProgramSlicing <source code>\n");
+		return 1;
+	}
 
-		p->next = var;
-		var = p;
-	}*/
+	/*修改词法分析器的输入流*/
+	if ((yyin = fopen(argv[1], "r")) == NULL)
+	{
+		printf("Cannot open file!\n");
+		return 1;
+	}
 
 	/*yyparse()返回值为0或1
 	返回0表示执行成功，并已建立好抽象语法树;
@@ -34,15 +37,39 @@ int main(int argc, char **argv)
 	if(yyparse())
 		return 1;
 
+	fclose(yyin);
+
 	node_counter = 1;
 	initialiseNodeId(ast_root);
 
+	/*仅作为测试，完成后删去*/
 	writeAstToFile(ast_root);
 
 	cfg_entry = createCFG(ast_root);
 
+	/*仅作为测试，完成后删去，*/
 	graph_to_dot(cfg_entry);
 
+	fflush(stdin);
+	do
+	{
+		/*切片准则<lineno, var>*/
+		printf("Please input the slicing criterion.\n");
+		printf("line number: ");
+		scanf("%d", &lineno);
+
+		printf("Set of variables: ");
+		while (scanf("%s", name_temp) != EOF)
+		{
+			p = (Symbol *)malloc(sizeof(Symbol));
+			strcpy(p->name, name_temp);
+
+			p->next = var;
+			var = p;
+		}
+	}while (programSlicing(cfg_entry, lineno, var));
+
+	/*释放节点所占空间*/
 	freeAstNode(ast_root);
 	freeCfgNode(cfg_entry);
 	

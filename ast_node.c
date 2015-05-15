@@ -78,25 +78,6 @@ void initialiseNodeId(AstNode *node)
 	}
 }
 
-/*判断节点值是string型还是number型，string型返回0.number型返回1*/
-int valueIsNumber(enum AstNodeType type)
-{
-	switch(type)
-	{
-		case Number: 
-				return 1;
-		case Identifier:
-		case String:
-		case Keyword:
-		case Operator:
-		case Statement:
-		case Expression:
-		case FunctionDefinition:
-		case Declaration:
-				return 0;
-	}
-}
-
 /*后序遍历，释放节点空间*/
 void freeAstNode(AstNode *node)
 {

@@ -48,9 +48,6 @@ void linkAstNode(AstNode *parentNode, AstNode *first_child, ...);
 /*给节点编号，根节点编号为0*/
 void initialiseNodeId(AstNode *node);
 
-/*判断节点值是string型还是number型*/
-int valueIsNumber(enum AstNodeType type);
-
 /*释放抽象语法树节点所占空间*/
 void freeAstNode(AstNode *node);
 

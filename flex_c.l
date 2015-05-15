@@ -1,9 +1,11 @@
 %{
+	#include <stdio.h>
 	#include <stdlib.h>
 	#include <string.h>
 	#include "bison_c.tab.h"
 	#include "ast_node.h"
 
+	FILE *yyin;
 	int linesno = 1;
 	
 	void comment();

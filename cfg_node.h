@@ -2,6 +2,7 @@
 #define CFG_H
 
 #include "ast_node.h"
+#include "symbol.h"
 
 #define true 1
 #define false 0
@@ -14,12 +15,6 @@ enum CfgNodeType
 	Iteration,
 	Exit
 };
-
-typedef struct Symbol
-{
-	char name[20];
-	struct Symbol *next;
-}Symbol;
 
 /*用来保存后继节点指针的链表节点*/
 struct _CfgNodeList
@@ -72,8 +67,7 @@ NodeParameterList *iteration_case(NodeParameterList *succlist, AstNode *node_ast
 /*创建控制流图节点，由节点处理函数调用*/
 CfgNode *newCfgNode(enum CfgNodeType type);
 
-/*将抽象语法树节点node_ast中的符号使用信息存入符号链表中并返回，0表示def_s，1表示use_s*/
-//void collectSymbol(AstNode *node_ast, CfgNode *node_cfg, int flag);
+/*将抽象语法树节点node_ast中的符号使用信息插入符号链表中*/
 void collectSymbol(AstNode *node_ast, Symbol **symbol_list);
 
 void freeCfgNode(CfgNode *node);
