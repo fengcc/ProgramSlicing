@@ -30,12 +30,13 @@ int programSlicing(CfgNode *entry, int lineno, Symbol *var)
 		free(p);
 	}
 
-	p = slicing_result;
 	printf("Slicing result:\n");
-	while (p)
+	while (slicing_result)
 	{
-		printf("%d\n", p->node_cfg->node_of_ast->linenumber);
-		p = p->next;
+		printf("%d\n", slicing_result->node_cfg->node_of_ast->linenumber);
+		p = slicing_result;
+		slicing_result = slicing_result->next;
+		free(p);
 	}
 
 	return 0;
@@ -94,24 +95,19 @@ CfgNode *DFSSearch(CfgNode *node_cfg, int lineno, RecordCfgNode **visited_node)
 void DFSSlicing(CfgNode *node_cfg, Symbol **relevant, 
 	RecordCfgNode **visited_node, RecordCfgNode **slicing_list)
 {
-	RecordCfgNode *p;
+	RecordCfgNode *p, *p1;
 	CfgNodeList *q;
 	Symbol *r, *temp;	/*释放relevant所占空间时使用*/
+	int flag;
 
 	if (subtractSymbol(relevant, node_cfg->def_s))	/*如果修改过，即node_cfg定义了relevant中的变量*/
 	{
-		p = (RecordCfgNode *)malloc(sizeof(RecordCfgNode));
-		p->node_cfg = node_cfg;
-
-		/*插入到切片结果链表中*/
-		p->next = *slicing_list;
-		*slicing_list = p;
+		insertSlicingResult(slicing_list, node_cfg);
 
 		/*将node_cfg中使用的变量加入到relevant链表中*/
 		mergeSymbol(relevant, node_cfg->use_s);
 	}
 
-	/*如果是循环节点，不标记为访问过，因为循环节点需要多次访问，标记后就不能再访问了*/
 	if (node_cfg->nodetype_cfg != Iteration)
 	{
 		node_cfg->visited = true;
@@ -141,9 +137,57 @@ void DFSSlicing(CfgNode *node_cfg, Symbol **relevant,
 
 	for (q = node_cfg->predecessor; q; q = q->next)
 	{
+		/*是循环控制节点*/
+		if (q->node_cfg->nodetype_cfg == Iteration)
+		{
+			/*查找其是否在节点访问列表中，即是否是第一次访问*/
+			p = *visited_node;
+			flag = 0;
+			while (p)
+			{
+				/*找到*/
+				if (p->node_cfg->node_of_ast->linenumber == q->node_cfg->node_of_ast->linenumber)
+				{
+					p->visit_count++;
+					flag = 1;
+					break;
+				}
+				p = p->next;
+			}
+
+			if (!flag)	/*如果没有找到*/
+			{
+				p = (RecordCfgNode *)malloc(sizeof(RecordCfgNode));
+				p->node_cfg = q->node_cfg;
+				p->node_cfg->visited = true;
+				p->visit_count = 1;
+
+				/*插入到已访问列表*/
+				p->next = *visited_node;
+				*visited_node = p;
+			}
+
+			if (flag && p->visit_count == 2)	/*如果找到且是第二次访问，此时p指向找到的节点*/
+			{
+				while (*visited_node != p)
+				{
+					(*visited_node)->node_cfg->visited = false;
+					
+					p1 = *visited_node;
+					*visited_node = (*visited_node)->next;
+					free(p1);
+				}
+			}
+
+			temp = copySymbolList(*relevant);
+			DFSSlicing(q->node_cfg, &temp, visited_node, slicing_list);
+
+			continue;
+		}
+
 		if (!q->node_cfg->visited)
 		{
-			temp = copy_symbol_list(*relevant);
+			temp = copySymbolList(*relevant);
 			DFSSlicing(q->node_cfg, &temp, visited_node, slicing_list);
 		}
 	}
@@ -158,7 +202,7 @@ void DFSSlicing(CfgNode *node_cfg, Symbol **relevant,
 	}
 }
 
-Symbol *copy_symbol_list(Symbol *s)
+Symbol *copySymbolList(Symbol *s)
 {
 	Symbol *head = NULL, *p;
 
@@ -173,4 +217,55 @@ Symbol *copy_symbol_list(Symbol *s)
 	}
 
 	return head;
+}
+
+/*按行号递增的顺序插入切片结果链表中*/
+void insertSlicingResult(RecordCfgNode **slicing_list, CfgNode *node_cfg)
+{
+	RecordCfgNode *pre, *p, *t;
+
+	/*小于第一个节点的行号，插入到第一个节点前即可*/
+	if ( !(*slicing_list)
+		|| node_cfg->node_of_ast->linenumber < (*slicing_list)->node_cfg->node_of_ast->linenumber)
+	{
+		t = (RecordCfgNode *)malloc(sizeof(RecordCfgNode));
+		t->node_cfg = node_cfg;
+		t->next = *slicing_list;
+		*slicing_list = t;
+
+		return;
+	}
+
+	/*等于第一个节点行号，即切片结果链表里已有该节点，不用任何操作，直接退出函数*/
+	if (node_cfg->node_of_ast->linenumber == (*slicing_list)->node_cfg->node_of_ast->linenumber)
+		return;
+
+	/*即大于第一个节点行号的情况*/
+	pre = *slicing_list;
+	p = pre->next;
+	while (p)
+	{
+		/*插入到两者之间*/
+		if (node_cfg->node_of_ast->linenumber < p->node_cfg->node_of_ast->linenumber)
+		{
+			t = (RecordCfgNode *)malloc(sizeof(RecordCfgNode));
+			t->node_cfg = node_cfg;
+			t->next = p;
+			pre->next = t;
+
+			return;
+		}
+		
+		if (node_cfg->node_of_ast->linenumber == p->node_cfg->node_of_ast->linenumber)
+			return;
+
+		pre = p;
+		p = p->next;
+	}
+
+	/*执行到此说明节点行号大于切片结果链表里所有节点的行号，把节点插入到链表结尾*/
+	t = (RecordCfgNode *)malloc(sizeof(RecordCfgNode));
+	t->node_cfg = node_cfg;
+	t->next = NULL;
+	pre->next = t;
 }

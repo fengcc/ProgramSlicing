@@ -43,23 +43,19 @@ int subtractSymbol(Symbol **s1, Symbol *s2)
 void mergeSymbol(Symbol **s1, Symbol *s2)
 {
 	Symbol *p;
-	int flag;
 
 	while (s2)
 	{
-		flag = 0;
 		p = *s1;
 		while (p)
 		{
 			if (strcmp(p->name, s2->name) == 0)
-			{
-				flag = 1;
 				break;
-			}
+			
 			p = p->next;
 		}
 
-		if (!flag)	/*在s1中没有找到*/
+		if (!p)	/*在s1中没有找到*/
 		{
 			p = (Symbol *)malloc(sizeof(Symbol));
 			strcpy(p->name, s2->name);
