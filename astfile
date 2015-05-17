@@ -1,4 +1,4 @@
-TheTotalNumberOfNodes: 96      
+TheTotalNumberOfNodes: 101     
 
 @17     type      : 0       value     : i                                      
         linenumber: 5       firstchild: -1      nextsibling: -1     
@@ -75,86 +75,101 @@ TheTotalNumberOfNodes: 96
 @39     type      : 0       value     : i                                      
         linenumber: 10      firstchild: -1      nextsibling: 40     
 
-@53     type      : 0       value     : i                                      
+@54     type      : 0       value     : i                                      
         linenumber: 12      firstchild: -1      nextsibling: -1     
 
-@52     type      : 4       value     : +                                      
+@53     type      : 4       value     : +                                      
+        linenumber: 12      firstchild: -1      nextsibling: 54     
+
+@52     type      : 0       value     : sum                                    
         linenumber: 12      firstchild: -1      nextsibling: 53     
 
-@51     type      : 0       value     : sum                                    
-        linenumber: 12      firstchild: -1      nextsibling: 52     
-
-@54     type      : 4       value     : ;                                      
+@55     type      : 4       value     : ;                                      
         linenumber: 12      firstchild: -1      nextsibling: -1     
 
-@50     type      : 6       value     : additive_expression                    
-        linenumber: 12      firstchild: 51      nextsibling: 54     
+@51     type      : 6       value     : additive_expression                    
+        linenumber: 12      firstchild: 52      nextsibling: 55     
 
-@49     type      : 4       value     : =                                      
+@50     type      : 4       value     : =                                      
+        linenumber: 12      firstchild: -1      nextsibling: 51     
+
+@49     type      : 0       value     : sum                                    
         linenumber: 12      firstchild: -1      nextsibling: 50     
 
-@48     type      : 0       value     : sum                                    
-        linenumber: 12      firstchild: -1      nextsibling: 49     
-
-@61     type      : 0       value     : i                                      
+@62     type      : 0       value     : i                                      
         linenumber: 13      firstchild: -1      nextsibling: -1     
 
-@60     type      : 4       value     : *                                      
+@61     type      : 4       value     : *                                      
+        linenumber: 13      firstchild: -1      nextsibling: 62     
+
+@60     type      : 0       value     : product                                
         linenumber: 13      firstchild: -1      nextsibling: 61     
 
-@59     type      : 0       value     : product                                
-        linenumber: 13      firstchild: -1      nextsibling: 60     
-
-@62     type      : 4       value     : ;                                      
+@63     type      : 4       value     : ;                                      
         linenumber: 13      firstchild: -1      nextsibling: -1     
 
-@58     type      : 6       value     : multiplicative_expression              
-        linenumber: 13      firstchild: 59      nextsibling: 62     
+@59     type      : 6       value     : multiplicative_expression              
+        linenumber: 13      firstchild: 60      nextsibling: 63     
 
-@57     type      : 4       value     : =                                      
+@58     type      : 4       value     : =                                      
+        linenumber: 13      firstchild: -1      nextsibling: 59     
+
+@57     type      : 0       value     : product                                
         linenumber: 13      firstchild: -1      nextsibling: 58     
 
-@56     type      : 0       value     : product                                
-        linenumber: 13      firstchild: -1      nextsibling: 57     
+@56     type      : 5       value     : assignment_statement                   
+        linenumber: 13      firstchild: 57      nextsibling: -1     
 
-@55     type      : 5       value     : assignment_statement                   
-        linenumber: 13      firstchild: 56      nextsibling: -1     
+@48     type      : 5       value     : assignment_statement                   
+        linenumber: 12      firstchild: 49      nextsibling: 56     
 
-@47     type      : 5       value     : assignment_statement                   
-        linenumber: 12      firstchild: 48      nextsibling: 55     
-
-@69     type      : 1       value     : 1.000000                               
+@70     type      : 1       value     : 1.000000                               
         linenumber: 15      firstchild: -1      nextsibling: -1     
 
-@68     type      : 4       value     : +                                      
+@69     type      : 4       value     : +                                      
+        linenumber: 15      firstchild: -1      nextsibling: 70     
+
+@68     type      : 0       value     : i                                      
         linenumber: 15      firstchild: -1      nextsibling: 69     
 
-@67     type      : 0       value     : i                                      
-        linenumber: 15      firstchild: -1      nextsibling: 68     
-
-@70     type      : 4       value     : ;                                      
+@71     type      : 4       value     : ;                                      
         linenumber: 15      firstchild: -1      nextsibling: -1     
 
-@66     type      : 6       value     : additive_expression                    
-        linenumber: 15      firstchild: 67      nextsibling: 70     
+@67     type      : 6       value     : additive_expression                    
+        linenumber: 15      firstchild: 68      nextsibling: 71     
 
-@65     type      : 4       value     : =                                      
+@66     type      : 4       value     : =                                      
+        linenumber: 15      firstchild: -1      nextsibling: 67     
+
+@65     type      : 0       value     : i                                      
         linenumber: 15      firstchild: -1      nextsibling: 66     
 
-@64     type      : 0       value     : i                                      
-        linenumber: 15      firstchild: -1      nextsibling: 65     
+@64     type      : 5       value     : assignment_statement                   
+        linenumber: 15      firstchild: 65      nextsibling: -1     
 
-@63     type      : 5       value     : assignment_statement                   
-        linenumber: 15      firstchild: 64      nextsibling: -1     
+@47     type      : 7       value     : block_item_list                        
+        linenumber: 12      firstchild: 48      nextsibling: 64     
+
+@75     type      : 4       value     : ;                                      
+        linenumber: 17      firstchild: -1      nextsibling: -1     
+
+@74     type      : 1       value     : 0.000000                               
+        linenumber: 17      firstchild: -1      nextsibling: 75     
+
+@73     type      : 3       value     : return                                 
+        linenumber: 17      firstchild: -1      nextsibling: 74     
+
+@72     type      : 5       value     : jump_statement                         
+        linenumber: 17      firstchild: 73      nextsibling: -1     
 
 @46     type      : 7       value     : block_item_list                        
-        linenumber: 12      firstchild: 47      nextsibling: 63     
+        linenumber: 12      firstchild: 47      nextsibling: 72     
 
-@71     type      : 4       value     : }                                      
-        linenumber: 16      firstchild: -1      nextsibling: -1     
+@76     type      : 4       value     : }                                      
+        linenumber: 18      firstchild: -1      nextsibling: -1     
 
 @45     type      : 7       value     : block_item_list                        
-        linenumber: 12      firstchild: 46      nextsibling: 71     
+        linenumber: 12      firstchild: 46      nextsibling: 76     
 
 @44     type      : 4       value     : {                                      
         linenumber: 11      firstchild: -1      nextsibling: 45     
@@ -180,92 +195,92 @@ TheTotalNumberOfNodes: 96
 @12     type      : 7       value     : block_item_list                        
         linenumber: 5       firstchild: 13      nextsibling: 35     
 
-@79     type      : 0       value     : sum                                    
-        linenumber: 18      firstchild: -1      nextsibling: -1     
+@84     type      : 0       value     : sum                                    
+        linenumber: 20      firstchild: -1      nextsibling: -1     
 
-@78     type      : 4       value     : ,                                      
-        linenumber: 18      firstchild: -1      nextsibling: 79     
+@83     type      : 4       value     : ,                                      
+        linenumber: 20      firstchild: -1      nextsibling: 84     
 
-@77     type      : 2       value     : "%d\n"                                 
-        linenumber: 18      firstchild: -1      nextsibling: 78     
+@82     type      : 2       value     : "%d\n"                                 
+        linenumber: 20      firstchild: -1      nextsibling: 83     
 
-@80     type      : 4       value     : )                                      
-        linenumber: 18      firstchild: -1      nextsibling: -1     
+@85     type      : 4       value     : )                                      
+        linenumber: 20      firstchild: -1      nextsibling: -1     
 
-@76     type      : 6       value     : argument_expression_list               
-        linenumber: 18      firstchild: 77      nextsibling: 80     
+@81     type      : 6       value     : argument_expression_list               
+        linenumber: 20      firstchild: 82      nextsibling: 85     
 
-@75     type      : 4       value     : (                                      
-        linenumber: 18      firstchild: -1      nextsibling: 76     
+@80     type      : 4       value     : (                                      
+        linenumber: 20      firstchild: -1      nextsibling: 81     
 
-@74     type      : 0       value     : printf                                 
-        linenumber: 18      firstchild: -1      nextsibling: 75     
+@79     type      : 0       value     : printf                                 
+        linenumber: 20      firstchild: -1      nextsibling: 80     
 
-@81     type      : 4       value     : ;                                      
-        linenumber: 18      firstchild: -1      nextsibling: -1     
+@86     type      : 4       value     : ;                                      
+        linenumber: 20      firstchild: -1      nextsibling: -1     
 
-@73     type      : 6       value     : postfix_expression                     
-        linenumber: 18      firstchild: 74      nextsibling: 81     
+@78     type      : 6       value     : postfix_expression                     
+        linenumber: 20      firstchild: 79      nextsibling: 86     
 
-@72     type      : 5       value     : expression_statement                   
-        linenumber: 18      firstchild: 73      nextsibling: -1     
+@77     type      : 5       value     : expression_statement                   
+        linenumber: 20      firstchild: 78      nextsibling: -1     
 
 @11     type      : 7       value     : block_item_list                        
-        linenumber: 5       firstchild: 12      nextsibling: 72     
+        linenumber: 5       firstchild: 12      nextsibling: 77     
 
-@89     type      : 0       value     : product                                
-        linenumber: 19      firstchild: -1      nextsibling: -1     
-
-@88     type      : 4       value     : ,                                      
-        linenumber: 19      firstchild: -1      nextsibling: 89     
-
-@87     type      : 2       value     : "%d\n"                                 
-        linenumber: 19      firstchild: -1      nextsibling: 88     
-
-@90     type      : 4       value     : )                                      
-        linenumber: 19      firstchild: -1      nextsibling: -1     
-
-@86     type      : 6       value     : argument_expression_list               
-        linenumber: 19      firstchild: 87      nextsibling: 90     
-
-@85     type      : 4       value     : (                                      
-        linenumber: 19      firstchild: -1      nextsibling: 86     
-
-@84     type      : 0       value     : printf                                 
-        linenumber: 19      firstchild: -1      nextsibling: 85     
-
-@91     type      : 4       value     : ;                                      
-        linenumber: 19      firstchild: -1      nextsibling: -1     
-
-@83     type      : 6       value     : postfix_expression                     
-        linenumber: 19      firstchild: 84      nextsibling: 91     
-
-@82     type      : 5       value     : expression_statement                   
-        linenumber: 19      firstchild: 83      nextsibling: -1     
-
-@10     type      : 7       value     : block_item_list                        
-        linenumber: 5       firstchild: 11      nextsibling: 82     
-
-@95     type      : 4       value     : ;                                      
+@94     type      : 0       value     : product                                
         linenumber: 21      firstchild: -1      nextsibling: -1     
 
-@94     type      : 1       value     : 0.000000                               
-        linenumber: 21      firstchild: -1      nextsibling: 95     
-
-@93     type      : 3       value     : return                                 
+@93     type      : 4       value     : ,                                      
         linenumber: 21      firstchild: -1      nextsibling: 94     
 
-@92     type      : 5       value     : jump_statement                         
-        linenumber: 21      firstchild: 93      nextsibling: -1     
+@92     type      : 2       value     : "%d\n"                                 
+        linenumber: 21      firstchild: -1      nextsibling: 93     
+
+@95     type      : 4       value     : )                                      
+        linenumber: 21      firstchild: -1      nextsibling: -1     
+
+@91     type      : 6       value     : argument_expression_list               
+        linenumber: 21      firstchild: 92      nextsibling: 95     
+
+@90     type      : 4       value     : (                                      
+        linenumber: 21      firstchild: -1      nextsibling: 91     
+
+@89     type      : 0       value     : printf                                 
+        linenumber: 21      firstchild: -1      nextsibling: 90     
+
+@96     type      : 4       value     : ;                                      
+        linenumber: 21      firstchild: -1      nextsibling: -1     
+
+@88     type      : 6       value     : postfix_expression                     
+        linenumber: 21      firstchild: 89      nextsibling: 96     
+
+@87     type      : 5       value     : expression_statement                   
+        linenumber: 21      firstchild: 88      nextsibling: -1     
+
+@10     type      : 7       value     : block_item_list                        
+        linenumber: 5       firstchild: 11      nextsibling: 87     
+
+@100    type      : 4       value     : ;                                      
+        linenumber: 23      firstchild: -1      nextsibling: -1     
+
+@99     type      : 1       value     : 0.000000                               
+        linenumber: 23      firstchild: -1      nextsibling: 100    
+
+@98     type      : 3       value     : return                                 
+        linenumber: 23      firstchild: -1      nextsibling: 99     
+
+@97     type      : 5       value     : jump_statement                         
+        linenumber: 23      firstchild: 98      nextsibling: -1     
 
 @9      type      : 7       value     : block_item_list                        
-        linenumber: 5       firstchild: 10      nextsibling: 92     
+        linenumber: 5       firstchild: 10      nextsibling: 97     
 
-@96     type      : 4       value     : }                                      
-        linenumber: 22      firstchild: -1      nextsibling: -1     
+@101    type      : 4       value     : }                                      
+        linenumber: 24      firstchild: -1      nextsibling: -1     
 
 @8      type      : 7       value     : block_item_list                        
-        linenumber: 5       firstchild: 9       nextsibling: 96     
+        linenumber: 5       firstchild: 9       nextsibling: 101    
 
 @7      type      : 4       value     : {                                      
         linenumber: 4       firstchild: -1      nextsibling: 8      

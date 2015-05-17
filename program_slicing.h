@@ -12,7 +12,7 @@ typedef struct RecordCfgNode
 }RecordCfgNode;
 
 /*成功返回0, 失败返回1*/
-int programSlicing(CfgNode *entry, int lineno, Symbol *var);
+int programSlicing(CfgNode *entry, int lineno, Symbol *var, RecordCfgNode **slicing_list);
 
 /*在控制流图中查找节点，返回相应节点的指针，由programSlicing()函数调用*/
 CfgNode *searchNode(CfgNode *node_cfg, int lineno);

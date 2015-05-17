@@ -4,10 +4,10 @@
 
 #include "program_slicing.h"
 
-int programSlicing(CfgNode *entry, int lineno, Symbol *var)
+int programSlicing(CfgNode *entry, int lineno, Symbol *var, RecordCfgNode **slicing_list)
 {
 	CfgNode *slice_start_node;
-	RecordCfgNode *slicing_result = NULL, *p;
+	RecordCfgNode *p;
 	RecordCfgNode *visited_node_list = NULL;
 	
 	slice_start_node = searchNode(entry, lineno);
@@ -17,8 +17,11 @@ int programSlicing(CfgNode *entry, int lineno, Symbol *var)
 		return 1;
 	}
 
+	/*开始节点插入到切片结果链表中*/
+	insertSlicingResult(slicing_list, slice_start_node);
+
 	/*深度优先遍历切片*/
-	DFSSlicing(slice_start_node, &var, &visited_node_list, &slicing_result);
+	DFSSlicing(slice_start_node, &var, &visited_node_list, slicing_list);
 
 	/*访问过的节点标记复原*/
 	while (visited_node_list)
@@ -27,15 +30,6 @@ int programSlicing(CfgNode *entry, int lineno, Symbol *var)
 		
 		p = visited_node_list;
 		visited_node_list = visited_node_list->next;
-		free(p);
-	}
-
-	printf("Slicing result:\n");
-	while (slicing_result)
-	{
-		printf("%d\n", slicing_result->node_cfg->node_of_ast->linenumber);
-		p = slicing_result;
-		slicing_result = slicing_result->next;
 		free(p);
 	}
 

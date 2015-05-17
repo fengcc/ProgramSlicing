@@ -8,12 +8,14 @@
 #include "program_slicing.h"
 #include "graph_to_dot.h"
 #include "write_ast_to_file.h"
+#include "print_slicing_result.h"
 
 int main(int argc, char **argv)
 {
-	extern FILE *yyin;
+	extern FILE *yyin;	/*来自词法分析器*/
 
 	CfgNode *cfg_entry;
+	RecordCfgNode *slicing_result = NULL, *q;
 	int lineno;
 	Symbol *var = NULL, *p;
 	char name_temp[20];
@@ -35,14 +37,16 @@ int main(int argc, char **argv)
 	返回0表示执行成功，并已建立好抽象语法树;
 	返回1表示执行出错，会自动调用yyerror()函数输出错误信息.*/
 	if(yyparse())
+	{
+		fclose(yyin);
 		return 1;
+	}
 
 	fclose(yyin);
 
-	node_counter = 1;
-	initialiseNodeId(ast_root);
-
 	/*仅作为测试，完成后删去*/
+	node_counter = 1;	/*记得删除声明以及ast节点中的id以及valueIsNumber函数*/
+	initialiseNodeId(ast_root);
 	writeAstToFile(ast_root);
 
 	cfg_entry = createCFG(ast_root);
@@ -67,7 +71,9 @@ int main(int argc, char **argv)
 			p->next = var;
 			var = p;
 		}
-	}while (programSlicing(cfg_entry, lineno, var));
+	}while (programSlicing(cfg_entry, lineno, var, &slicing_result));
+
+	printSlicingResult(argv[1], slicing_result, ast_root, cfg_entry);
 
 	/*释放节点所占空间*/
 	freeAstNode(ast_root);
