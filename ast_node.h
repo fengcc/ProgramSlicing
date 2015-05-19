@@ -28,6 +28,7 @@ typedef struct AstNode
 	enum AstNodeType nodetype_ast;
 	NodeValue value;	/*节点值*/
 	int linenumber;		/*在源代码中的行号*/
+	int endlinenumber;	/*记录整个语句的结束行号，仅在循环语句或选择语句中使用到*/
 	struct AstNode *firstchild, *nextsibling;	/*指向第一个孩子和下一个兄弟*/
 }AstNode;
 

@@ -11,7 +11,7 @@ void printSlicingResult(char *sourcefile, RecordCfgNode *slicing_result,
 	FILE *in, *out;
 	char *destinationfile;		/*存放切片结果的文件名*/
 	char line_contents[1024];	/*记录当前读取行的内容*/
-	int linecount ;				/*记录当前读取行的行号*/
+	int linecount ;				/*记录当前需要读取行的行号*/
 	int file_path_length = strlen(sourcefile);
 	CfgNode **cfg_array;
 	RecordCfgNode *p;
@@ -41,13 +41,20 @@ void printSlicingResult(char *sourcefile, RecordCfgNode *slicing_result,
 	/*然后将控制流图节点指针存入以行号为下标的对应数组元素中*/
 	initialiseCfgArray(entry, cfg_array);
 
-	for (linecount = 1; linecount <= linesno; linecount++)
+	linecount = 1;
+	for (i = 1; i <= linesno; i++)
 	{
 		fgets(line_contents, 1024, in);
 
+		if (i < linecount)	/*还没到需要读取的那一行*/
+			continue;
+
 		if (cfg_array[linecount] == NULL	/*不再控制流图节点中*/
 			|| isInSlicingResult(slicing_result, linecount))	/*或者在控制流图中且在切片结果链表中*/
+		{
 			fputs(line_contents, out);	/*写到文件里*/
+			linecount++;
+		}
 		else	/*在控制流图中但不在切片结果链表中*/
 		{
 			if (cfg_array[linecount]->nodetype_cfg == Iteration
@@ -61,15 +68,23 @@ void printSlicingResult(char *sourcefile, RecordCfgNode *slicing_result,
 				/*如果下一个切片结果节点在此节点对应的抽象语法树中，即控制依赖*/
 				if (p && isInAstNode(cfg_array[linecount]->node_of_ast->firstchild,
 									 p->node_cfg->node_of_ast->linenumber))
+				{
 					fputs(line_contents, out);	/*写到文件里*/
-				else if (p)
-					linecount = p->node_cfg->node_of_ast->linenumber;
+					linecount++;
+				}
+				else	/*否则，直接跳过此语句，将应读取行置为此语句结束行的下一行*/
+					linecount = cfg_array[linecount]->node_of_ast->endlinenumber + 1;
 
-				continue;	
 			}
-			
-			if (strcmp(cfg_array[linecount]->node_of_ast->value.value_string, "jump_statement") == 0)
+			else if (strcmp(cfg_array[linecount]->node_of_ast->value.value_string, "jump_statement") == 0)
+			{
 				fputs(line_contents, out);
+				linecount++;
+			}
+			else
+			{
+				linecount++;
+			}
 		}
 	}
 

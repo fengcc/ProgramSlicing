@@ -283,12 +283,14 @@ expression_statement
 selection_statement
 	: IF '(' expression ')' compound_statement %prec LOWER_THAN_ELSE
 								{ $$ = newAstNode(Statement, newNodeValue(0, "selection_statement_no_else"), $3->linenumber);
+								  $$->endlinenumber = $5->firstchild->linenumber;
 								  AstNode *if_keyword = newAstNode(Keyword, newNodeValue(0, "if"), $3->linenumber);
 								  AstNode *left_bracket = newAstNode(Operator, newNodeValue(0, "("), $3->linenumber);
 								  AstNode *right_bracket = newAstNode(Operator, newNodeValue(0, ")"), $3->linenumber);
 								  linkAstNode($$, if_keyword, left_bracket, $3, right_bracket, $5, NULL); }
 	| IF '(' expression ')' compound_statement ELSE compound_statement
 								{ $$ = newAstNode(Statement, newNodeValue(0, "selection_statement_with_else"), $3->linenumber);
+								  $$->endlinenumber = $7->firstchild->linenumber;
 								  AstNode *if_keyword = newAstNode(Keyword, newNodeValue(0, "if"), $3->linenumber);
 								  AstNode *else_keyword = newAstNode(Keyword, newNodeValue(0, "else"), $3->linenumber);
 								  AstNode *left_bracket = newAstNode(Operator, newNodeValue(0, "("), $3->linenumber);
@@ -299,6 +301,7 @@ selection_statement
 iteration_statement
 	: WHILE '(' expression ')' compound_statement
 								{ $$ = newAstNode(Statement, newNodeValue(0, "iteration_statement"), $3->linenumber);
+								  $$->endlinenumber = $5->firstchild->linenumber;
 								  AstNode *while_keyword = newAstNode(Keyword, newNodeValue(0, "while"), $3->linenumber);
 								  AstNode *left_bracket = newAstNode(Operator, newNodeValue(0, "("), $3->linenumber);
 								  AstNode *right_bracket = newAstNode(Operator, newNodeValue(0, ")"), $3->linenumber);
@@ -338,7 +341,7 @@ compound_statement
 								  AstNode *big_right_bracket = newAstNode(Operator, newNodeValue(0, "}"), linesno);
 								  linkAstNode($$, big_left_bracket, big_right_bracket, NULL); }
 	| '{' block_item_list '}'	{ $$ = newAstNode(FunctionDefinition, newNodeValue(0, "compound_statement"), $2->linenumber-1);
-								  AstNode *big_left_bracket = newAstNode(Operator, newNodeValue(0, "{"), $2->linenumber-1);
+								  AstNode *big_left_bracket = newAstNode(Operator, newNodeValue(0, "{"), linesno);
 								  AstNode *big_right_bracket = newAstNode(Operator, newNodeValue(0, "}"), linesno);
 								  linkAstNode($$, big_left_bracket, $2, big_right_bracket, NULL); }
 	;
