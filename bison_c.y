@@ -85,6 +85,7 @@ unary_operator		/*未考虑指针和取地址符*/
 	| '-'									{ $$ = newAstNode(Operator, newNodeValue(0, "-"), linesno); }
 	| '~'									{ $$ = newAstNode(Operator, newNodeValue(0, "~"), linesno); }
 	| '!'									{ $$ = newAstNode(Operator, newNodeValue(0, "!"), linesno); }
+	| '&'									{ $$ = newAstNode(Operator, newNodeValue(0, "&"), linesno); }
 	;
 
 cast_expression

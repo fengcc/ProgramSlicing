@@ -44,7 +44,8 @@ void printSlicingResult(char *sourcefile, RecordCfgNode *slicing_result,
 	linecount = 1;
 	for (i = 1; i <= linesno; i++)
 	{
-		fgets(line_contents, 1024, in);
+		if (fgets(line_contents, 1024, in) == NULL)	/*失败或到达文件结尾*/
+			break;
 
 		if (i < linecount)	/*还没到需要读取的那一行*/
 			continue;
