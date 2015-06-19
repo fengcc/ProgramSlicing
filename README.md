@@ -7,7 +7,7 @@ Clone the code:
 ```bash
 git clone https://github.com/feng01/ProgramSlicing.git
 ```
-#### if you just want to run it:
+#### If you just want to run it:
 ```bash
 cd ProgramSlicing
 ./ProgramSlicing filepath/test.c	#the second parameter is the code you want to analysis
@@ -15,7 +15,7 @@ cd ProgramSlicing
 Then input the slicing criterion : line number and variables.</br>
 The slice result will saved in the file named test_slice.c which is located in the same directory as test.c.
 
-#### if you want to modify the code and recompile it:
+#### If you want to modify the code and recompile it:
 First， some software you need install:
 * flex
 * bison
